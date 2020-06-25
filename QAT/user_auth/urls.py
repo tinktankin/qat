@@ -9,5 +9,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('', views.home, name='home'),
     path('logout/', views.logout, name='logout'),
-    path('oauth/', views.oauth, name='oauth'),
+    # path('oauth/', views.oauth, name='oauth'),
 ]

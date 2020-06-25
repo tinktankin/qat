@@ -1,5 +1,3 @@
-{% load socialaccount %}
-{% providers_media_js %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -338,10 +336,10 @@
 				<form method="POST" action="{% url 'user_auth:login'%}">
 					{% csrf_token %}
 					<h1>Sign In</h1>
-					<div class="social-container">
-						<a href="{% provider_login_url "facebook" method="js_sdk" %}" class ="social"><i  class="fa fa-facebook"></i></a>
-						<a href="{% provider_login_url "google" %}" class ="social"><i  class="fa fa-google"></i></a>
-					</div>
+					<!-- <div class="social-container">
+						<a href="#" class ="social"><i  class="fa fa-facebook"></i></a>
+						<a href="#" class ="social"><i  class="fa fa-google"></i></a>
+					</div> -->
 					<span> or use your account</span><br>
 					<input type="email" name="email" placeholder="Email" required>
 					<input type="password" name="password" placeholder="Password" required>

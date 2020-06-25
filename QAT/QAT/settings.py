@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
     'user_auth',
 ]
 
@@ -126,13 +126,13 @@ USE_TZ = True
 AUTH_USER_MODEL = 'user_auth.User'
 
 STATIC_URL = '/static/'
-SITE_ID = 1
+# SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "/auth/oauth"
+# LOGIN_REDIRECT_URL = "/auth/oauth"
 
-ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-SOCIALACCOUNT_EMAIL_REQUIRED=True
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# SOCIALACCOUNT_EMAIL_REQUIRED=True
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
