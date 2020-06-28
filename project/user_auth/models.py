@@ -19,10 +19,10 @@ class User(AbstractUser):
     gender = models.CharField(max_length=20, choices=GENDERS)
     phone_no = models.IntegerField(null = True)
     organisation = models.CharField(max_length=30, null=True)
+    email_verified = models.BooleanField(default=False)
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     address = models.CharField(max_length=50)
     image = models.ImageField(upload_to ='uploads/% Y/% m/% d/')
     date_of_birth = models.DateField(null=True)
-    email_verified = models.BooleanField(default=False)
