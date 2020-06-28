@@ -1,0 +1,4 @@
+/QAT/db.sqlite3
+/QAT/QAT/__pycache__/*
+/QAT/user_auth/__pycache__/*
+/QAT/user_auth/migrations/*
