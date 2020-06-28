@@ -1,4 +1,4 @@
-/QAT/db.sqlite3
-/QAT/QAT/__pycache__/*
-/QAT/user_auth/__pycache__/*
-/QAT/user_auth/migrations/*
+/project/db.sqlite3
+/project/project/__pycache__/*
+/project/user_auth/__pycache__/*
+/project/user_auth/migrations/*
