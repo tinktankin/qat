@@ -1,6 +1,14 @@
 from django.shortcuts import render, redirect
 import hashlib
+from django.core.mail import EmailMessage, send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+
 from .models import User
+from .tokens import account_activation_token
 
 # Checks whether user exists and returns user value
 def check_user_exists(request, email):
@@ -42,6 +50,21 @@ def signup(request):
                             user.user_type = 'TESTADMIN'
                         # Save user
                         user.save()
+                        request.session['username'] = hashlib.sha256(str(user.email).encode()).hexdigest()
+                        current_site = get_current_site(request)
+                        print(current_site.domain)
+                        mail_subject = 'Activate your account.'
+                        message = render_to_string('user_auth/activmail.html', {
+                        'username': user.username,
+                        'domain': current_site.domain,
+                        'uid': urlsafe_base64_encode(force_bytes(user.username)).decode(),
+                        'token': account_activation_token.make_token(user),
+                        })
+                        to_email = user.email
+                        email = EmailMessage(
+                            mail_subject, message, to=[to_email]
+                        )
+                        email.send()
                         return render(request, 'user_auth/Login_Registration.html')
                     else:
                         return render(request, 'user_auth/Login_Registration.html', {'warning': 'The phone number should be 10 numbers only'})
@@ -109,8 +132,24 @@ def logout(request):
             request.session.flush()
         else:
             return render(request, 'user_auth/home.html', {'warning': 'Permission denied'})
-    return redirect('user_auth:home')
+    return redirect('user_auth:login')
 
 # Social authentication
 # def oauth(request):
 #     return redirect('user_auth:home')
+
+# Activate account by email verification
+def activate(request, uidb64, token):
+    try:
+        # Decode the user
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(username = uid)
+    except(TypeError, ValueError, OverflowError):
+        user = None
+    # Check whether token is correct
+    if user is not None and account_activation_token.check_token(user, token):
+        user.email_verified = True
+        user.save()
+        return redirect('user_auth:home')
+    else:
+        return HttpResponse('user_auth:login')
