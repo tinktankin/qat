@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview</title>
+</head>
+
+<body>
+    <h1>TOPIC : {{obj.exam_name}}</h1><br>
+    <h3>DATE : {{obj.exam_date}} <br><br>TIME : {{obj.exam_time}}</h3>
+
+    <form>
+        {% for i in ques %}
+        <h4>{{forloop.counter}}.) {{i.question}} </h4>
+        <p>maximum marks : {{i.max_marks}}<br> minimum marks : {{i.min_marks}}</p>{% if i.ques_type == 1 %}
+        <input type="radio" name="q{{forloop.counter}}" value="{{i.option_a}}">
+        <label for="{{i.option_a}}">{{i.option_a}}</label><br>
+        <input type="radio" name="q{{forloop.counter}}" value="{{i.option_a}}">
+        <label for="q{{i.option_b}}">{{i.option_b}}</label><br>
+        <input type="radio" name="q{{forloop.counter}}" value="{{i.option_c}}">
+        <label for="q{{i.option_c}}">{{i.option_c}}</label><br>
+        <input type="radio" name="q{{forloop.counter}}" value="{{i.option_d}}">
+        <label for="q{{i.option_d}}">{{i.option_d}}</label><br> {% endif %} {% if i.ques_type == 2 %}
+        <textarea id="ans" name="correct_ans" rows="5" cols="20">Write Your Answer Here
+        </textarea><br><br> {% endif %} {% endfor %}
+    </form>
+
+    <h3>
+        <a href="{% url 'test_admin:ques' %}">GO BACK</a>
+    </h3>
+</body>
+
+</html>

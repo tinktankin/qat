@@ -97,7 +97,8 @@ def home(request):
         else:
             return render(request, 'user_auth/home.html', {'warning': 'Permission denied'})
     else:
-        return render(request, 'user_auth/home.html', {'login_status': login_status})
+        return redirect('user_auth:signup')
+        # return render(request, 'user_auth/home.html', {'login_status': login_status})
     
 # Logout for users
 def logout(request):
