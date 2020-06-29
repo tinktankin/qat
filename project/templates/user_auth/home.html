@@ -1,7 +1,5 @@
 <p>{{ login_status }} {{ user_type }}</p>
-{% if login_status %}
-{{ user }} 
-{% endif %}
-{% if warning %}
-      <h3 class="form-signin-heading" >*{{ warning }}</h3>
+{% if login_status %} {{ user }}
+<br><a href="{% url 'test_admin:test' %}"><span>Create Test</span></a> {% endif %} {% if warning %}
+<h3 class="form-signin-heading">*{{ warning }}</h3>
 {% endif %}

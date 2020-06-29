@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question</title>
+</head>
+
+<body>
+
+    <h1>Exam Name : {{obj.exam_name}}</h1>
+    <h1>Exam Date : {{obj.exam_date}}</h1>
+    <h1>Exam Time : {{obj.exam_time}}</h1>
+    <form action="../ques/" method="POST">
+        {% csrf_token %}
+        <label class="required" for="id_ques_type">Question type:</label>
+        <select name="ques_type" id="id_ques_type" required>
+            <option value="1" selected="">Multiple Choice</option>
+            <option value="2">Open Answer</option>
+        </select>
+        <input type="submit" value="Add Question">
+    </form>
+
+    <h3>Questions Created</h3>
+    {% for i in ques %}
+    <li>{{forloop.counter}}.) {{i}}</li> {% endfor %}
+
+    <h3><a href="{% url 'test_admin:preview' %}"><b>PREVIEW</b></a></h3>
+
+</body>
+
+</html>

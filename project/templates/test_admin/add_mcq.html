@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD MCQ</title>
+</head>
+
+<body>
+    <h1>{{msg}}</h1>
+    <form action="../addmcq/" method="POST">
+        {% csrf_token %}
+        <br>
+        <input type="text" name="question" placeholder="Question" required><br><br>
+        <input type="text" name="option_a" placeholder="Option A" required><br><br>
+        <input type="text" name="option_b" placeholder="Option B" required><br><br>
+        <input type="text" name="option_c" placeholder="Option C" required><br><br>
+        <input type="text" name="option_d" placeholder="Option D" required><br><br>
+        <label class="required" for="id_ques_ans">Question Answer:</label>
+        <select name="ques_ans" id="id_ques_ans" required>
+            <option value="1" selected="">Option A</option>
+            <option value="2">Option B</option>
+            <option value="3">Option C</option>
+            <option value="4">Option D</option>
+        </select>
+        <br><br>
+        <input type="number" name="max_marks" placeholder="maximum marks" value=5 required><br><br>
+        <input type="number" name="min_marks" placeholder="minimum marks" value=0><br><br>
+        <input type="submit" value="Create Question">
+
+    </form>
+</body>
+
+</html>
