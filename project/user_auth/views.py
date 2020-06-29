@@ -52,7 +52,6 @@ def signup(request):
                         user.save()
                         request.session['username'] = hashlib.sha256(str(user.email).encode()).hexdigest()
                         current_site = get_current_site(request)
-                        print(current_site.domain)
                         mail_subject = 'Activate your account.'
                         message = render_to_string('user_auth/activmail.html', {
                         'username': user.username,
@@ -65,7 +64,7 @@ def signup(request):
                             mail_subject, message, to=[to_email]
                         )
                         email.send()
-                        return render(request, 'user_auth/Login_Registration.html')
+                        return home(request)
                     else:
                         return render(request, 'user_auth/Login_Registration.html', {'warning': 'The phone number should be 10 numbers only'})
                 else:
@@ -152,3 +151,52 @@ def activate(request, uidb64, token):
         return redirect('user_auth:home')
     else:
         return HttpResponse('user_auth:login')
+
+
+def forgot_password(request):
+    if request.method == 'GET':
+        return render(request, 'user_auth/forgot_password.html')
+    elif request.method == 'POST':
+        v, u = check_user_exists(request, hashlib.sha256(str(request.POST['email']).encode()).hexdigest())
+        if v:
+            current_site = get_current_site(request)
+            mail_subject = 'Reset your password.'
+            message = render_to_string('user_auth/forgot_password_email.html', {
+            'username': u.username,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(u.username)).decode(),
+            'token': account_activation_token.make_token(u),
+            })
+            to_email = u.email
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.send()
+            return render(request, 'user_auth/forgot_password.html', {'message': 'Email has been sent to ' + to_email})
+
+
+def display_save_password(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        print(uid)
+        user = User.objects.get(username = uid)
+    except(TypeError, ValueError, OverflowError):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        a = hashlib.sha256(str(user.email).encode()).hexdigest()
+        return render(request, 'user_auth/save_password.html', {'a': a})
+    else:
+        return HttpResponse('Activation link is invalid!')
+
+def save_password(request):
+    if request.method == 'POST':
+        v, user = check_user_exists(request, request.POST['id'])
+        password = request.POST['password']
+        retype_password = request.POST['retype_password']
+        if password == retype_password:
+            user.password = hashlib.sha256(str(password).encode()).hexdigest()
+            user.save()
+            return redirect('user_auth:home')
+        else:
+            return HttpResponse('Both passwords should match')
+            
