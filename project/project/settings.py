@@ -146,5 +146,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 # Enter email and password
-EMAIL_HOST_USER = 'ajith.n17@iiits.in'
-EMAIL_HOST_PASSWORD = 'ajith@123'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
