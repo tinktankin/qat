@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD Open Question</title>
+</head>
+
+<body>
+    <form action="../addopen/" method="POST">
+        {% csrf_token %}
+        <br>
+        <input type="text" name="question" placeholder="Question" required><br>
+        <label for="ans">Correct Answer:</label><br>
+        <textarea id="ans" name="correct_ans" rows="3" cols="20"></textarea><br><br>
+        <input type="number" name="max_marks" placeholder="maximum marks" value=5 required><br><br>
+        <input type="number" name="min_marks" placeholder="minimum marks" value=0><br><br>
+        <input type="submit" value="Create Question">
+
+    </form>
+</body>
+
+</html>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_auth',
     'test_admin',
+    'test_maker',
     # 'django.contrib.sites',
     # 'allauth',
     # 'allauth.account',

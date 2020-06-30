@@ -1,5 +1,6 @@
 <p>{{ login_status }} {{ user_type }}</p>
-{% if login_status %} {{ user }}
-<br><a href="{% url 'test_admin:test' %}"><span>Create Test</span></a> {% endif %} {% if warning %}
+{% if login_status %} {{ user }} {% if user_type == "TESTMAKER" %}
+<br><a href="{% url 'test_maker:test' %}"><span>Create Test</span></a> {% endif %} {% if user_type == "TESTADMIN" %}
+<br><a href="{% url 'test_admin:test' %}"><span>Add Questions To Test</span></a> {% endif %} {% endif %} {% if warning %}
 <h3 class="form-signin-heading">*{{ warning }}</h3>
 {% endif %}

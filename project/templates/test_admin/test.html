@@ -8,14 +8,12 @@
 </head>
 
 <body>
-    <h1>{{msg}}</h1>
-    <form action="../test/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="exam_name" placeholder="Enter Exam Name" required>
-        <input type="date" name="exam_date" placeholder="Enter Exam Date" required>
-        <input type="time" name="exam_time" placeholder="Enter Exam Time" required>
-        <input type="submit">
-    </form>
+    <h1>Available Test</h1>
+    {% for i in test %}
+    <li><a href="ques/{{i}}">{{i}}</a></li>
+    {% endfor %}
+
+    <h4>CONTACT TEST MAKER TO CREATE TESTS</h4>
 </body>
 
 </html>
