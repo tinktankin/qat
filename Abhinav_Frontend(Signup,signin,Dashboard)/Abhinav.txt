@@ -1,0 +1,5 @@
+Created Signup and Signin Template with the help of HTML,CSS.
+Created Dashboard for the Test Taker with the help of HTML,CSS,JAVASCRIPT
+Created Dashboard for the Test Maker with the help of HTML,CSS,JAVASCRIPT
+Provided id for the every event like for profile there will be a unique id where we can post our content and that will be displayed individually.
+The Frontend.zip contains all the files for the frontend including css and javascript.

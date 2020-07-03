@@ -45,13 +45,10 @@ def signup(request):
                         elif(request.POST["user_type"]=="Test Maker"):
                             print("Testsetter")
                             user.user_type = 'TESTMAKER'
-                            user.organisation = request.POST["organisation"]
                         elif(request.POST["user_type"]=="Test Admin"):
                             print('testadmin')
                             user.user_type = 'TESTADMIN'
-                            user.organisation = request.POST["organisation"]
                         # Save user
-                        user.gender = request.POST["gender"]
                         user.save()
                         request.session['username'] = hashlib.sha256(str(user.email).encode()).hexdigest()
                         current_site = get_current_site(request)
