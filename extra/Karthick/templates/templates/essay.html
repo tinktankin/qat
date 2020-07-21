@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<style>
+
+
+
+input[type=text], select {
+  width: 50%;
+height:150px;
+text-align: center;
+  padding: 2px 20px;
+  margin: 8px 80px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=text1], select {
+  width: 50%;
+
+text-align: center;
+  padding: 12px 20px;
+  margin: 8px 80px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+.btn {
+ background-color: rgb(255, 139, 30);
+  border: none;
+  color: white;
+text-align: left;
+  padding: 8px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 20px 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+.btn4 {
+ background-color: #35bdd5;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 0px 900px;
+  cursor: pointer;
+}
+.btnn {
+ background-color: #e1373f;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 5px 900px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+
+.btn1 {width: 10%;}
+.btn2 {width: 10%;}
+.btn3 {width: 10%;}
+.btn4 {width: 10%;}
+</style>
+<body>
+
+
+
+<div>
+<center><h3>Question Bank</h3></center>
+<form action="{% url 'blog:essay' %}" method="POST">{% csrf_token %}
+<h3<p style="color:green"></p>Question :</h3><br>
+<input type="text1" id="text" required="Please fill Option" name="Q2" class="mytext" placeholder="Question" />
+
+<h3<p style="color:green"></p>Answer :</h3><br>
+ <input type="text" id="fname" required="Please fill Question" name="es" placeholder="Answer"><br>
+
+
+
+
+<a href="{% url 'blog:test' %}"><button class="btn btn4"><i class=""></i> Finish </button></a>
+<a href="{% url 'blog:essay' %}"><button class="btnn btn2"><i class=""></i> Cancel </button></a>
+
+
+
+
+
+
+  
+
+    
+
+  </form>
+</div>
+
+</body>
+</html>

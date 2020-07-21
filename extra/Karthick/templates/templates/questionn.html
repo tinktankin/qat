@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<style>
+input[type=text], select {
+  width: 50%;
+text-align: left;
+  padding: 12px 20px;
+  margin: 8px 80px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn {
+ background-color: #35bdd5;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 0px 900px;
+  cursor: pointer;
+}
+.btnn {
+ background-color: #e1373f;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 5px 900px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+.btn1 {width: 10%;}
+.btn2 {width: 10%;}
+</style>
+<body>
+  
+
+
+<div>
+<center><h3>Question Bank</h3></center>
+  <form action="{% url 'blog:questionn' %}" method="POST">{% csrf_token %}
+    <label for="fname">QuestionBank Title</label><br>
+    <input type="text" id="fname" required="required" name="QuestionBank" placeholder="QuestionBank"><br>
+
+    <label for="country">Category</label><br>
+    <select id="country" required="required" name="category" placeholder="category">
+      <option value="australia">-- Select-- </option>
+      <option value="Business"> Business </option>
+      <option value="Computer & Technology"> Computer & Technology  </option>
+      <option value="Education & Exam">Education & Exam</option>
+      <option value="Fun"> Fun </option>
+      <option value="It Certification"> IT Certification  </option>
+      <option value="Others"> Others </option>
+    </select><br>
+
+    <label for="country">Exam Type</label><br>
+    <select id="country" required="required" name="typee" placeholder="Exam Type">
+      <option value="australia">-- Select-- </option>
+      <option value="Easy"> Easy </option>
+      <option value="Medium"> Medium  </option>
+      <option value="Hard"> Hard </option>
+    </select><br>
+
+    <label for="fname">Duration of Exam(In Minutes)</label><br>
+    <input type="text" id="fname" required="required" name="dur" placeholder="Duration"><br>
+
+
+    <label for="country">Question Bank Share</label><br>
+    <select id="country" required="required" name="country">
+      <option value="australia">Public-Share to all</option>
+      <option value="canada">Demo School</option>
+      <option value="usa">Private Only</option>
+    </select><br>
+
+    <label for="country">Select Choice</label><br>
+    <select id="country" required="required" name="choice" placeholder="category">
+      <option value="Single"> Single Choice </option>
+      <option value="Multiple"> Multiple Choice  </option>
+      <option value="Essay">Essay Type</option>
+    </select><br>
+    
+  
+<a href="{% url 'blog:test' %}"><button class="btn btn1"><i class=""></i> Next </button></a>
+<a href="{% url 'blog:nextt' %}"><button class="btnn btn2"><i class=""></i> Cancel </button></a>
+
+
+  </form>
+  <h4>{{msg}}</h4>
+</div>
+
+</body>
+</html>

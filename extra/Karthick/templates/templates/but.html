@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style>
+      body {
+        background-image: url("{% static 'theblog/images/i.png'%}");
+      }
+      .btn1 {width: 50%;}
+.btn2 {width: 50%;}
+.btn3 {width: 50%;}
+    </style>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" 
+    href="{% static 'theblog/css/style1.css'%}">
+  </head>
+  <body>
+
+
+<div class="container">
+  <a href="{% url 'blog:questionn' %}"> <button class="btn btn1">Create Question Bank</button></a><br>
+  <a href="{% url 'blog:manage' %}"> <button class="btn btn2">Manages Question Bank</button></a><br>
+  <a href="{% url 'blog:sc' %}"> <button class="btn btn1">Create Scoring Rubric</button></a><br>
+  <a href="{% url 'blog:nextt' %}"> <button class="btn btn1">Create Questions</button></a><br>
+
+
+</div>
+<div class="content"></div>
+  </body>
+</html>

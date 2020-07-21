@@ -12,8 +12,8 @@ class User(AbstractUser):
     )
     user_type = models.CharField(max_length=20, choices=USER_CHOICES)
     GENDERS = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
         ('Prefer not to say', 'Prefer not to say'),
     )
     gender = models.CharField(max_length=20, choices=GENDERS)

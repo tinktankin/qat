@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<style>
+
+input[type=text], select {
+  width: 50%;
+text-align: left;
+  padding: 12px 20px;
+  margin: 8px 80px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+.btn {
+ background-color: rgb(255, 139, 30);
+  border: none;
+  color: white;
+text-align: left;
+  padding: 8px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 20px 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+.btn1 {width: 10%;}
+.btn2 {width: 10%;}
+.btn3 {width: 10%;}
+</style>
+<body>
+
+
+
+<div>
+<center><h3>Question Bank</h3></center>
+<h3<p style="color:rgb(16, 85, 233)"></p>Update Question / Delete Question</h3><br>
+<a href="{% url 'blog:buttonss' %}"><button class="btn btn1">View Single Choice</button></a>
+<a href="{% url 'blog:mult' %}"><button class="btn btn2">View Multiple Choice</button></a>
+<a href="{% url 'blog:esss' %}"><button class="btn btn3">View Essay Type</button></a>
+
+  
+
+    
+
+  </form>
+</div>
+
+</body>
+</html>

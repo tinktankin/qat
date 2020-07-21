@@ -19,6 +19,14 @@ def check_user_exists(request, email):
             return (True, u)            
     return (False, None)
 
+def get_user(request,email):
+    if request is None:
+        return None
+    for u in User.objects.all():
+            if hashlib.sha256(str(u.email).encode()).hexdigest() == email:
+                return u
+    return None
+
 # Signup for users.
 def signup(request):
     if request.method=='GET':
@@ -51,7 +59,8 @@ def signup(request):
                             user.user_type = 'TESTADMIN'
                             user.organisation = request.POST["organisation"]
                         # Save user
-                        user.gender = request.POST["gender"]
+                        user.gender = str(request.POST["gender"]).capitalize()
+                        print(str(request.POST["gender"]).capitalize())
                         user.save()
                         request.session['username'] = hashlib.sha256(str(user.email).encode()).hexdigest()
                         current_site = get_current_site(request)
@@ -62,12 +71,12 @@ def signup(request):
                         'uid': urlsafe_base64_encode(force_bytes(user.username)).decode(),
                         'token': account_activation_token.make_token(user),
                         })
-                        to_email = user.email
-                        email = EmailMessage(
-                            mail_subject, message, to=[to_email]
-                        )
-                        email.send()
-                        return home(request)
+                        # to_email = user.email
+                        # email = EmailMessage(
+                        #     mail_subject, message, to=[to_email]
+                        # )
+                        # email.send()
+                        return redirect('user_auth:login')
                     else:
                         return render(request, 'user_auth/Login_Registration.html', {'warning': 'The phone number should be 10 numbers only'})
                 else:
@@ -101,7 +110,7 @@ def login(request):
                         request.session['status'] = 1
                     elif user.user_type == 'TESTADMIN':
                         request.session['status'] = 2
-                    return home(request)
+                    return redirect('user_auth:home')
                 else:
                     return render(request, 'user_auth/Login_Registration.html', {'warning': 'Enter the correct password'})
             else:
@@ -203,4 +212,11 @@ def save_password(request):
             return redirect('user_auth:home')
         else:
             return HttpResponse('Both passwords should match')
-            
+
+
+def profile(request):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request, logged_in)
+        return render(request, 'user_auth/Profile.html', {"user" : u})
+    return redirect('user_auth:login')

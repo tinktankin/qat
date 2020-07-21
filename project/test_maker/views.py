@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Test,Question
+from .models import Test,Question,CreateTest, Testadmin, StudentList
 import hashlib
 # import sys
 # sys.path.append("..")
@@ -139,4 +139,102 @@ def preview(request):
                 return redirect('user_auth:home')
             return render(request, "test_maker/preview.html", {"obj": test,"ques":ques})
         return redirect('user_auth:home')
+    return redirect('user_auth:home')
+
+
+def create_test(request):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        print(u)
+        if u.user_type == 'TESTMAKER':
+            if request.method == 'GET':
+                return render(request, 'test_maker/create_test.html')
+            else:
+                test = CreateTest(
+                    publisher = request.POST["publisher"],
+                    name = request.POST["name"],
+                    category = request.POST["category"],
+                    date = request.POST["date"],
+                    time = request.POST["time"],
+                    duration = request.POST["duration"],
+                    negative = request.POST["negative"],
+                    creator = u.username,
+                    organisation = u.organisation,
+                )
+                try:
+                    test.save()
+                except:
+                    return render(request, 'test_maker/create_test.html',{"msg":"fill the form correctly"})	
+                return redirect("test_maker:select_admin",test.name)
+        return redirect('user_auth:home')
+    return redirect('user_auth:home')
+
+def select(request, name):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        obj = CreateTest.objects.filter(name=name)[0]
+        all_admins = User.objects.filter(organisation = obj.organisation, user_type='TESTADMIN')
+        if u.user_type == 'TESTMAKER':
+            if request.method == 'GET':
+                return render(request, 'test_maker/select_admin.html',{
+                                "obj":obj,
+                                "admins" : all_admins
+                            })
+            else:
+                adm = Testadmin()
+                adm.test = obj
+                adm.admin = request.POST.getlist("admin")
+                adm.save()
+                return redirect('user_auth:home')
+        return redirect('user_auth:home')
+    return redirect('user_auth:home')
+
+
+def view_all(request):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        all_test = CreateTest.objects.filter(creator = u.username)
+        return render(request, 'test_maker/view_all.html',{"all_test":all_test})
+    return redirect('user_auth:home')
+
+def view_test(request, name):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        obj = CreateTest.objects.filter(name=name)[0]
+        admin = Testadmin.objects.filter(test=obj)[0]
+        return render(request, 'test_maker/view_test.html',{"obj":obj, "admin":admin})
+    return redirect('user_auth:home')
+
+def student(request):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        all_test = CreateTest.objects.filter(creator=u.username)
+        ls = []
+        student = []
+        try: 
+            for i in all_test:
+                student = StudentList.objects.get(test=i)
+                ls.append((i,list(student.user)))
+            
+            for i,j in ls:
+                for st in j:
+                    user = User.objects.get(username=st)
+                    student.append({
+                        "name":user.first_name,
+                        "email":user.email,
+                        "username":user.username,
+                        "test":i,
+                    })
+        except:
+            NONE = "NONE"
+            student = [{"name":NONE,
+                        "email":NONE,
+                        "username":NONE,
+                        "test":NONE,}]
+        return render(request, 'test_maker/student.html', {"student":student})
     return redirect('user_auth:home')

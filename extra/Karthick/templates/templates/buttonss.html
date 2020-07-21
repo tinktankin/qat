@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<h3<p style="color:#fff"></p>Question Management</h3>
+<style>
+body {
+  background-image: url("{% static 'theblog/images/i.png'%}");
+      }
+
+input[type=text], select {
+  width: 50%;
+text-align: left;
+  padding: 12px 20px;
+  margin: 3px 40px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 4px 0px;
+  margin: 0px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn {
+ background-color: #35bdd5;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 0px 900px;
+  cursor: pointer;
+}
+.btnn {
+ background-color: #e1373f;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 10px 10px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 8px 900px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+input[type="radio"] {
+  margin-right: 1px ;
+   width: 8%;
+text-align: left;
+  padding: 0px 0px;
+  margin: 4px 0px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+}
+
+div {
+  border-radius: 4px;
+ 
+  background-color: #f2f2f2;
+  padding: 0px 50px;
+}
+.btn1 {width: 10%;}
+.btn2 {width: 10%;}
+</style>
+<body>
+   
+
+
+<div>
+
+<center><h3<p style="color:#000000"></p>{{i.QuestionBank}}</h3></center>
+{% for i in blog %}
+    <li>
+        <h4<p style="color:#000000"></p>{{i.QQ_1}}</h5><br>
+        <h3<p style="color:#000000"></p><input type="checkbox" name="vehicle1" value="Bike">{{i.op_1}}</h3>
+        <h3<p style="color:#000000"></p><input type="checkbox" name="vehicle1" value="Bike">{{i.op_2}}</h3><br>
+        <h3<p style="color:#000000"></p><input type="checkbox" name="vehicle1" value="Bike">{{i.op_3}}</h3>
+    </li>
+    {% endfor %}
+
+
+  </form>
+</div>
+
+</body>
+</html>

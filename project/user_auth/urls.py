@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.activate, name='activate'),
     re_path(r'^display_save_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.display_save_password, name='display_save_password'),
     # path('oauth/', views.oauth, name='oauth'),
+    path('profile/',views.profile, name='profile'),
 ]

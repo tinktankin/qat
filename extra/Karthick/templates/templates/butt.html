@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+<style>
+
+      body {
+        background-image: url("{% static 'theblog/images/i.png'%}");
+      }
+    
+.btn {
+ background-color: DodgerBlue;
+  border: none;
+  color: white;
+text-align: left;
+  padding: 30px 20px;
+  text-decoration: none;
+ display: inline-block;
+  font-size: 20px;
+  margin: 20px 350px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+.btn1 {width: 50%;}
+.btn2 {width: 50%;}
+.btn3 {width: 50%;}
+.btn4 {width: 50%;}
+</style>
+</head>
+<body>
+
+
+<a href="{% url 'blog:home' %}"><button class="btn btn1"><i class="far fa-user"></i> Application Administrator</button></a><br>
+<a href="{% url 'blog:but' %}"><button class="btn btn2"><i class="fas fa-book-open"></i> Test Admin</button></a><br>
+<a href="{% url 'blog:que' %}"><button class="btn btn3"><i class="fas fa-id-card"></i> View Question Bank</button></a>
+<a href="{% url 'blog:buttons' %}"><button class="btn btn4"><i class="fas fa-book-open"></i> View Questions</button></a>
+
+
+</body>
+</html>

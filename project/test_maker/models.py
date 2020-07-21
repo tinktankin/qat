@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from user_auth.models import User
 
 
 class Test(models.Model):
@@ -43,3 +44,32 @@ class Question(models.Model):
 		else:
 			q_type = "OPEN ANSWER"
 		return f"{q_type} = {self.question}"
+
+class CreateTest(models.Model):
+	publisher = models.CharField(max_length=1000)
+	name = models.CharField(max_length=1000)
+	category = models.CharField(max_length=1000)
+	date = models.DateField(default=datetime.date.today)
+	time = models.TimeField(null = True)
+	duration = models.IntegerField()
+	negative = models.BooleanField()
+	creator = models.CharField(max_length=500)
+	organisation = models.CharField(max_length=500, blank=True)
+
+	def __str__(self):
+		return "{} - {}".format(self.name, self.publisher)
+
+class Testadmin(models.Model):
+	test = models.ForeignKey(CreateTest, on_delete=models.CASCADE)
+	admin = models.CharField(max_length=5000)
+
+	def __str__(self):
+		return "Admins - {}".format(self.test)
+
+class StudentList(models.Model):
+	test = models.ForeignKey(CreateTest, on_delete=models.CASCADE, unique=True)
+	user = models.ManyToManyField(User)
+
+	def __str__(self):
+		return "Student - {}".format(self.test)
+
