@@ -1,0 +1,202 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>{{obj.name}} - {{obj.publisher}}</title>
+
+    <link rel="stylesheet" href="../static/css/tabs.css" type="text/css" media="screen, projection">
+
+    <script type="text/javascript" src="../static/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-ui-1.7.custom.min.js"></script>
+    <script type="text/javascript" src="../static/js/custom.js"></script>
+
+</head>
+
+<body>
+
+    <div id="page-wrap">
+
+        <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                {% for ques in questions %}
+                <li class="ui-corner-top ui-tabs-selected ui-state-active">
+                    <a href="#fragment-{{forloop.counter}}"></a>{{forloop.counter}}</li>
+                {% endfor %}
+            </ul>
+            <form action="" method="POST">{% csrf_token %} {% for ques in questions %} {% if ques.ques_type == 'MCQ' %}
+                <div id="fragment-{{forloop.counter}}" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+                    <table width="100%" height="30%" border="0">
+
+                        <td height="10" bgcolor="#091C5A" colspan="3">
+                            <div align="center">
+                                <font size="+1"><strong><font color="#FFFFFF">{{obj.name}} - {{obj.publisher}}</font></strong> </font>
+                            </div>
+                        </td>
+                        <tr>
+                            <td height="15" width="44%">
+                                <font size="+1">Question {{forloop.counter}} of {{n}}</font>
+                            </td>
+                            <td height="15" width="34%">&nbsp;</td>
+                            <td height="15" width="22%">
+                                <font size="">Test Duration: {{obj.duration}} minutes</font>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <tr>
+                        <td height="550" colspan="3" valign="top">
+                            <blockquote>
+                                <font face="Times New Roman" size="4">
+                                    <p>{{ques.ques}}</p>
+                                    </h1>
+                                    </br>
+                                    </br>
+                                </font>
+                                <font face="Times New Roman">
+                                    <p>
+                                        <font size="4">
+                                            <input type="radio" value="{{ques.op_a}}" id="item_1A" name="{{ques.ques}}">
+                                            <label for="item_1A" accesskey="A"> A. {{ques.op_a}}</label></font>
+                                    </p>
+                                    <p>
+                                        <font size="4"> <br>
+                                            <input type="radio" value="{{ques.op_b}}" id="item_1B" name="{{ques.ques}}">
+                                            <label for="item_1B" accesskey="B"> B. {{ques.op_b}}</label></font>
+                                    </p>
+                                    <p>
+                                        <font size="4"> <br>
+                                            <input type="radio" value="{{ques.op_c}}" id="item_1C" name="{{ques.ques}}">
+                                            <label for="item_1C " accesskey="C "> C. {{ques.op_c}}</label></font>
+                                    </p>
+                                    <p>
+                                        <font size="4 "> <br>
+                                            <input type="radio" value="{{ques.op_d}} " id="item_1D" name="{{ques.ques}}">
+                                            <label for="item_1D " accesskey="C "> D. {{ques.op_d}}</label></font>
+                                    </p>
+                                    <br>
+                                    <a href="# " class="next-tab mover " rel="{{forloop.next}}">Next Page �</a><a href="#" class="prev-tab mover " rel="{{forloop.prev}}">� Prev Page</a>
+
+                                </font>
+                            </blockquote>
+                        </td>
+                    </tr>
+                </div>
+                {% endif %}{% if ques.ques_type == 'ManyCorrect' %}
+                <div id="fragment-{{forloop.counter}}" class="ui-tabs-panel ui-tabs-hide ui-widget-content ui-corner-bottom ">
+                    <table width="100% " height="30% " border="0 ">
+
+                        <td height="10 " bgcolor="#091C5A " colspan="3 ">
+                            <div align="center ">
+                                <font size="+1 "><strong><font color="#FFFFFF ">{{obj.name}} - {{obj.publisher}}</font></strong> </font>
+                            </div>
+                        </td>
+                        <tr>
+                            <td height="15 " width="44% ">
+                                <font size="+1 ">Question {{forloop.counter}} of {{n}}</font>
+                            </td>
+                            <td height="15 " width="34% ">&nbsp;</td>
+                            <td height="15 " width="22% ">
+                                <font size=" ">Test Duration: {{obj.duration}} minutes</font>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <tr>
+                        <td height="550 " colspan="3 " valign="top ">
+                            <blockquote>
+                                <font face="Times New Roman " size="4 ">
+                                    <p>{{ques.ques}} (Choose Many.)</p><br>
+                                </font><br>
+                                <font face="Times New Roman ">
+                                    <p>
+                                        <font size="4 ">
+                                            <input type="checkbox" value="{{ques.op_a}}" id="item_1A " name="{{ques.ques}}">
+                                            <label for="item_1A " accesskey="A "> A. {{ques.op_a}}</label></font>
+                                    </p>
+
+                                    <p>
+                                        <font size="4 "> <br>
+                                            <input type="checkbox" value="{{ques.op_b}}" id="item_1B " name="{{ques.ques}}">
+                                            <label for="item_1B " accesskey="B "> B. {{ques.op_b}}</label></font>
+                                    </p>
+                                    <p>
+                                        <font size="4 "> <br>
+                                            <input type="checkbox" value="{{ques.op_c}}" id="item_1C " name="{{ques.ques}}">
+                                            <label for="item_1C " accesskey="C "> C. {{ques.op_c}}</label></font>
+                                    </p>
+                                    <p>
+                                        <font size="4 "> <br>
+                                            <input type="checkbox" value="{{ques.op_d}}" id="item_1D " name="{{ques.ques}}">
+                                            <label for="item_1D " accesskey="D "> D. {{ques.op_d}}</label></font>
+                                        <p>
+                                            <font size="4 "> <br>
+
+                                            </font>
+                                        </p>
+
+                                        <a href="# " class="next-tab mover " rel="{{forloop.next}}">Next Page �</a><a href="#" class="prev-tab mover " rel="{{forloop.prev}}">� Prev Page</a>
+                                    </p>
+                                </font>
+                            </blockquote>
+                        </td>
+                    </tr>
+                </div>
+                {% endif %}{% if ques.ques_type == 'OpenAnswer' %}
+                <div id="fragment-{{forloop.counter}}" class="ui-tabs-panel ui-tabs-hide ui-widget-content ui-corner-bottom ">
+                    <table width="100% " height="30% " border="0 ">
+
+                        <td height="10 " bgcolor="#091C5A " colspan="3 ">
+                            <div align="center ">
+                                <font size="+1 "><strong><font color="#FFFFFF ">{{obj.name}} - {{obj.publisher}}</font></strong> </font>
+                            </div>
+                        </td>
+                        <tr>
+                            <td height="15 " width="44% ">
+                                <font size="+1 ">Question {{forloop.counter}} of {{n}}</font>
+                            </td>
+                            <td height="15 " width="34% ">&nbsp;</td>
+                            <td height="15 " width="22% ">
+                                <font size=" ">Test Duration: {{obj.duration}} minutes</font>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <tr>
+                        <td height="550 " colspan="3 " valign="top ">
+                            <blockquote>
+                                <font face="Times New Roman " size="4 ">
+                                    <p>{{ques.ques}}</p><br>
+                                </font><br>
+                                <font face="Times New Roman ">
+                                    <h3<p style="color:#000000 ">
+                                        </p><input type="text" id="fname " required="Please fill Answer " name="{{ques.ques}}" placeholder="Answer"><br></h3>
+                                        <p>
+                                            <font size="4 "> <br><br><br>
+                                            </font>
+                                        </p>
+
+                                        <a href="# " class="next-tab mover " rel="{{forloop.next}}">Next Page �</a><a href="# " class="prev-tab mover " rel="{{forloop.prev}}">� Prev Page</a>
+                                        </p>
+                                </font>
+                            </blockquote>
+                        </td>
+                    </tr>
+                </div>
+                {% endif %} {% endfor %} {% if user.user_type == 'TESTTAKER' %}
+                <input type="submit" value="Submit Test"> {% endif %}
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+</html>

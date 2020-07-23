@@ -116,6 +116,7 @@
                         <p style="color:#000000">
                             DURATION : {{i.duration}} minutes</p>
                     </h3>
+                    <a href="{% url 'user_auth:test' i.name %}"><button class="btn btn1" > Preview Test</button></a><br>
                     <a href="{% url 'test_maker:view_test' i.name %}"><button class="btn btn1"><i class=""></i> VIEW </button></a>
             </li>
             {% endfor %}

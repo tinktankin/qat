@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from test_maker.models import Test,Question
+from test_maker.models import CreateTest,Testadmin
 from user_auth.models import User
 import hashlib
-from .models import Questionbank,MCQ,ManyCorrect,OpenAnswer
+from .models import Questionbank,MCQ,ManyCorrect,OpenAnswer,Test
 
 def get_user(request,email):
     if request is None:
@@ -11,6 +11,7 @@ def get_user(request,email):
             if hashlib.sha256(str(u.email).encode()).hexdigest() == email:
                 return u
     return None
+
 
 def test(request):
 	if request.session.has_key('username'):
@@ -187,6 +188,8 @@ def AddMcq(request, name):
 			mcq.op_c = request.POST["op_c"]
 			mcq.op_d = request.POST["op_d"]
 			mcq.answer = request.POST["answer"]
+			mcq.marks = request.POST["marks"]
+			mcq.negative_marks = request.POST["negative"]
 			mcq.save()
 			return redirect('test_admin:ManageQBank',obj.name)
 	return redirect('user_auth:home')
@@ -207,6 +210,8 @@ def AddMultiple(request, name):
 			many.op_c = request.POST["op_c"]
 			many.op_d = request.POST["op_d"]
 			many.answer = request.POST.getlist("answer")
+			many.marks = request.POST["marks"]
+			many.negative_marks = request.POST["negative"]
 			print(request.POST.getlist("answer"))
 			many.save()
 			return redirect('test_admin:ManageQBank',obj.name)
@@ -224,6 +229,8 @@ def AddOpen(request, name):
 				op.question_bank = obj
 				op.ques = request.POST["ques"]
 				op.answer = request.POST["answer"]
+				op.marks = request.POST["marks"]
+				op.negative_marks = request.POST["negative"]
 				print(request.POST["answer"])
 				op.save()
 				return redirect('test_admin:ManageQBank',obj.name)
@@ -290,4 +297,151 @@ def all_ques(request):
 			all_ques.extend(manycorrect)
 			all_ques.extend(openques)
 		return render(request, 'test_admin/all_ques.html', {"questions":all_ques})
+	return redirect('user_auth:home')
+
+
+def assigned(request):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		all_test_inst = Testadmin.objects.filter(admin=u.username)
+		all_test = []
+		all_obj = []
+		for i in all_test_inst:
+			all_test.append(i.test)
+		for i in all_test:
+			try :
+				test = Test(
+					publisher = i.publisher,
+					name = i.name,
+					category = i.category,
+					date = i.date,
+					time = i.time,
+					duration = i.duration,
+					negative = i.negative,
+					creator = i.creator,
+					organisation = i.organisation,
+				)
+				test.save()
+			except:
+				test = Test.objects.get(name = i.name)
+			all_obj.append(test)
+		return render(request,'test_admin/assigned.html',{"obj":all_obj})
+
+
+def manage_test(request, name):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		obj = Test.objects.filter(name=name)[0]
+		mcq = list(MCQ.objects.filter(test=obj))
+		manycorrect = list(ManyCorrect.objects.filter(test=obj))
+		openques = list(OpenAnswer.objects.filter(test=obj))
+		all_ques = []
+		all_ques.extend(mcq)
+		all_ques.extend(manycorrect)
+		all_ques.extend(openques)
+		print(all_ques)
+		return render(request,'test_admin/manage_test2.html',{"test":obj, "questions":all_ques})
+	return redirect('user_auth:home')
+
+
+def AddMcqTest(request, name):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		obj = Test.objects.filter(name=name)[0]
+		if request.method == 'GET':
+			return render(request,'test_admin/mcq.html',{"QBank":obj})
+		elif request.method == 'POST':
+			mcq = MCQ()
+			mcq.test = obj
+			mcq.ques = request.POST["ques"]
+			mcq.op_a = request.POST["op_a"]
+			mcq.op_b = request.POST["op_b"]
+			mcq.op_c = request.POST["op_c"]
+			mcq.op_d = request.POST["op_d"]
+			mcq.answer = request.POST["answer"]
+			mcq.marks = request.POST["marks"]
+			mcq.negative_marks = request.POST["negative"]
+			mcq.save()
+			return redirect('test_admin:manage_test',obj.name)
+	return redirect('user_auth:home')
+
+def AddMultipleTest(request, name):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		obj = Test.objects.filter(name=name)[0]
+		if request.method == 'GET':
+			return render(request,'test_admin/multiple.html',{"QBank":obj})
+		elif request.method == 'POST':
+			many = ManyCorrect()
+			many.test = obj
+			many.ques = request.POST["ques"]
+			many.op_a = request.POST["op_a"]
+			many.op_b = request.POST["op_b"]
+			many.op_c = request.POST["op_c"]
+			many.op_d = request.POST["op_d"]
+			many.answer = request.POST.getlist("answer")
+			many.marks = request.POST["marks"]
+			many.negative_marks = request.POST["negative"]
+			print(request.POST.getlist("answer"))
+			many.save()
+			return redirect('test_admin:manage_test',obj.name)
+	return redirect('user_auth:home')
+
+def AddOpenTest(request, name):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		obj = Test.objects.filter(name=name)[0]
+		if request.method == 'GET':
+			return render(request,'test_admin/open.html',{"QBank":obj})
+		elif request.method == 'POST':
+			op = OpenAnswer()
+			op.test = obj
+			op.ques = request.POST["ques"]
+			op.answer = request.POST["answer"]
+			op.marks = request.POST["marks"]
+			op.negative_marks = request.POST["negative"]
+			print(request.POST["answer"])
+			op.save()
+			return redirect('test_admin:manage_test',obj.name)
+	return redirect('user_auth:home')
+
+
+
+def add_question_from_bank(request, name):
+	if request.session.has_key('username'):
+		logged_in = request.session['username']
+		u = get_user(request,logged_in)
+		test = Test.objects.filter(name=name)[0]
+		qbank = Questionbank.objects.filter(creator=u.username)
+		all_ques = []
+		for obj in qbank:
+			mcq = list(MCQ.objects.filter(question_bank=obj))
+			manycorrect = list(ManyCorrect.objects.filter(question_bank=obj))
+			openques = list(OpenAnswer.objects.filter(question_bank=obj))
+			all_ques.extend(mcq)
+			all_ques.extend(manycorrect)
+			all_ques.extend(openques)
+		print(all_ques)
+		if request.method == 'GET':
+			return render(request,'test_admin/from_qbank.html',{"all_ques":all_ques, "test":test})
+		else:
+			questions = request.POST.getlist("answer")
+			print(questions)
+			for i in questions:
+				ques, ques_type = (i).split('`')
+				if ques_type == 'MCQ':
+					ques_obj = MCQ.objects.get(ques=ques)
+				if ques_type == 'ManyCorrect':
+					ques_obj = ManyCorrect.objects.get(ques=ques)
+				if ques_type == 'OpenAnswer':
+					ques_obj = OpenAnswer.objects.get(ques=ques)
+				print(ques_obj)
+				ques_obj.test = test
+				ques_obj.save()
+			return redirect('test_admin:manage_test',test.name)
 	return redirect('user_auth:home')

@@ -95,24 +95,29 @@
                 <h3<p style="color:#000000">
                     </p>Exam Management</h3>
             </center>
-            {% for i in obj %}
+            {% for i,j in all_test %}
             <li>
                 <h3>
                     <p style="color:#000000">
-                        EXAM NAME : {{i.name}}</p>
+                        TEST NAME : {{i.name}}</p>
                     <h3>
                         <p style="color:#000000">
                             CATEGORY : {{i.category}}</p>
                     </h3>
                     <h3>
                         <p style="color:#000000">
-                            EXAM TYPE : {{i.exam_type}}</p>
+                            Date and Time : {{i.date}} {{i.time}} </p>
                     </h3>
                     <h3>
                         <p style="color:#000000">
-                            Visibility : {{i.visibility}}</p>
+                            Publisher : {{i.publisher}} </p>
                     </h3>
-                    <a href="{% url 'test_admin:ManageQBank' i.name %}"><button class="btn btn1"><i class=""></i> EDIT </button></a>
+                    <h3>
+                        <p style="color:#000000">
+                            DURATION : {{i.duration}} minutes</p>
+                    </h3>
+                    {% if j == True %}
+                    <a href="{% url 'user_auth:test' i.name %}"><button class="btn btn1" > Take Test</button></a><br>{% endif %}
             </li>
             {% endfor %}
         </div>

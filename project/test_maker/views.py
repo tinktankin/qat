@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Test,Question,CreateTest, Testadmin, StudentList
+from test_admin.models import Questionbank,MCQ,ManyCorrect,OpenAnswer,Test
+from .models import CreateTest, Testadmin
 import hashlib
+from user_auth.models import StudentResponse
 # import sys
 # sys.path.append("..")
 # from ..user_auth.models import User
@@ -175,7 +177,7 @@ def select(request, name):
         logged_in = request.session['username']
         u = get_user(request,logged_in)
         obj = CreateTest.objects.filter(name=name)[0]
-        all_admins = User.objects.filter(organisation = obj.organisation, user_type='TESTADMIN')
+        all_admins = User.objects.filter(organisation = obj.organisation, user_type='TESTADMIN')[:1]
         if u.user_type == 'TESTMAKER':
             if request.method == 'GET':
                 return render(request, 'test_maker/select_admin.html',{
@@ -185,7 +187,7 @@ def select(request, name):
             else:
                 adm = Testadmin()
                 adm.test = obj
-                adm.admin = request.POST.getlist("admin")
+                adm.admin = request.POST.get("admin")
                 adm.save()
                 return redirect('user_auth:home')
         return redirect('user_auth:home')
@@ -205,8 +207,19 @@ def view_test(request, name):
         logged_in = request.session['username']
         u = get_user(request,logged_in)
         obj = CreateTest.objects.filter(name=name)[0]
-        admin = Testadmin.objects.filter(test=obj)[0]
-        return render(request, 'test_maker/view_test.html',{"obj":obj, "admin":admin})
+        admin = Testadmin.objects.filter(test=obj)[:1]
+        try:
+            obj = Test.objects.filter(name=name)[0]
+            mcq = list(MCQ.objects.filter(test=obj))
+            manycorrect = list(ManyCorrect.objects.filter(test=obj))
+            openques = list(OpenAnswer.objects.filter(test=obj))
+            all_ques = []
+            all_ques.extend(mcq)
+            all_ques.extend(manycorrect)
+            all_ques.extend(openques)
+        except:
+            all_ques = []
+        return render(request, 'test_maker/view_test.html',{"obj":obj, "admin":admin, "all_ques":all_ques})
     return redirect('user_auth:home')
 
 def student(request):
@@ -216,20 +229,23 @@ def student(request):
         all_test = CreateTest.objects.filter(creator=u.username)
         ls = []
         student = []
-        try: 
+        try:
             for i in all_test:
-                student = StudentList.objects.get(test=i)
-                ls.append((i,list(student.user)))
-            
+                t = Test.objects.filter(name=i.name) 
+                s = StudentResponse.objects.filter(test=t[0])
+                print(s)
+                for j in s:
+                    ls.append((j.student,i))
+            ls = set(ls)
+            print(set(ls))
             for i,j in ls:
-                for st in j:
-                    user = User.objects.get(username=st)
-                    student.append({
-                        "name":user.first_name,
-                        "email":user.email,
-                        "username":user.username,
-                        "test":i,
-                    })
+                user = User.objects.get(username=i)
+                student.append({
+                "name":user.first_name,
+                "email":user.email,
+                "username":user.username,
+                "test":j, 
+                })
         except:
             NONE = "NONE"
             student = [{"name":NONE,

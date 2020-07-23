@@ -20,4 +20,10 @@ urlpatterns = [
 	path('viewopen/<str:name>',views.ViewOpen, name='ViewOpen'),
 	path('manageq_bank',views.manage_qbank, name='manage_qbank'),
 	path('viewques/',views.all_ques, name='viewallques'),
+	path('assigned_test/',views.assigned, name='assigned_test'),
+	path('manage_test/<str:name>',views.manage_test, name='manage_test'),
+	path('addmcqtest/<str:name>',views.AddMcqTest, name='AddMcqTest'),
+	path('addmultipletest/<str:name>',views.AddMultipleTest, name='AddMultipleTest'),
+	path('addopentest/<str:name>',views.AddOpenTest, name='AddOpenTest'),
+	path('add_question_from_bank/<str:name>',views.add_question_from_bank, name='add_question_from_bank'),
 ]

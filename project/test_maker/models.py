@@ -47,7 +47,7 @@ class Question(models.Model):
 
 class CreateTest(models.Model):
 	publisher = models.CharField(max_length=1000)
-	name = models.CharField(max_length=1000)
+	name = models.CharField(max_length=1000, unique=True)
 	category = models.CharField(max_length=1000)
 	date = models.DateField(default=datetime.date.today)
 	time = models.TimeField(null = True)
@@ -60,16 +60,11 @@ class CreateTest(models.Model):
 		return "{} - {}".format(self.name, self.publisher)
 
 class Testadmin(models.Model):
-	test = models.ForeignKey(CreateTest, on_delete=models.CASCADE)
+	test = models.ForeignKey(CreateTest, on_delete=models.CASCADE, unique=True)
 	admin = models.CharField(max_length=5000)
 
 	def __str__(self):
 		return "Admins - {}".format(self.test)
 
-class StudentList(models.Model):
-	test = models.ForeignKey(CreateTest, on_delete=models.CASCADE, unique=True)
-	user = models.ManyToManyField(User)
 
-	def __str__(self):
-		return "Student - {}".format(self.test)
 

@@ -68,28 +68,27 @@
 
     <div>
         <center>
-            <h1>Test Name - {{obj.name}}</h1>
+            <h1>Test - {{test.name}}</h1>
         </center>
         <center>
-            <h4>Category - {{obj.category}}</h4>
+            <h4>Category - {{test.category}}</h4>
         </center>
         <center>
-            <h4>TIMING - {{obj.date}} {{obj.time}}</h4>
+            <h4>Publisher - {{test.publisher}}</h4>
         </center>
         <center>
-            <h4>Publisher - {{obj.publisher}}</h4>
+            <h4>Date & Time - {{test.date}} {{test.time}}</h4>
         </center>
-        <center><a href="{% url 'user_auth:test' obj.name %}"><button class="btn btn1" style="width: auto;">Preview Test</button></a></center>
 
-
-    </div>
-    <div>
-        <h2>All Test Admins</h2>
-        <li>{{admin.admin}} - <a href="{% url 'test_maker:select_admin' obj.name %}">Edit</a></li>
+        <a href="{% url 'test_admin:AddMcqTest' test.name %}"><button class="btn btn1">Add MCQ Question</button></a>
+        <a href="{% url 'test_admin:AddMultipleTest' test.name %}"><button class="btn btn1" style="width: auto;">Add Multiple Correct Question</button></a>
+        <a href="{% url 'test_admin:AddOpenTest' test.name %}"><button class="btn btn1">Add Text Question</button></a>
+        <a href="{% url 'test_admin:add_question_from_bank' test.name %}"><button class="btn btn1" style="width: auto;">Add Question From Question Bank</button></a>
+        <a href="{% url 'user_auth:test' test.name %}"><button class="btn btn1" style="width: auto;">Preview Test</button></a>
     </div>
     <div>
         <h2>ALL QUESTIONS</h2>
-        {% for ques in all_ques %}
+        {% for ques in questions %}
         <li>{{ forloop.counter }}. {{ques}} </li><br> {% endfor %}
     </div>
 

@@ -6,9 +6,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.template.loader import render_to_string
 from django.http import HttpResponse
-
-from .models import User
+from test_admin.models import Questionbank,MCQ,ManyCorrect,OpenAnswer,Test
+from .models import User,StudentResponse
 from .tokens import account_activation_token
+from random import shuffle
+from datetime import datetime,timedelta
 
 # Checks whether user exists and returns user value
 def check_user_exists(request, email):
@@ -220,3 +222,71 @@ def profile(request):
         u = get_user(request, logged_in)
         return render(request, 'user_auth/Profile.html', {"user" : u})
     return redirect('user_auth:login')
+
+def test_exam(request, name):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request, logged_in)
+        obj = Test.objects.get(name=name)
+        mcq = list(MCQ.objects.filter(test=obj))
+        manycorrect = list(ManyCorrect.objects.filter(test=obj))
+        openques = list(OpenAnswer.objects.filter(test=obj))
+        all_ques = []
+        all_ques.extend(mcq)
+        all_ques.extend(manycorrect)
+        all_ques.extend(openques)
+        n = len(all_ques)
+        shuffle(all_ques)
+        try:
+            ls = StudentResponse.objects.filter(test=obj)
+            for i in ls:
+                if i.student == u.username:
+                    return HttpResponse('Test already taken by you')
+        except:
+            print("Taking Test")   
+        if request.method=='GET':
+            return render(request,'user_auth/main.html',{"questions":(all_ques),"obj":obj,"n":n,"user":u})
+        else:
+            for ques in all_ques:
+                response = StudentResponse()
+                response.test = obj
+                response.student = u.username
+                response.ques_type = ques.ques_type
+                response.ques = ques.ques
+                if ques.ques_type == 'MCQ':
+                    ans = request.POST.get('{}'.format(ques.ques))
+                    response.op_a = ques.op_a
+                    response.op_b = ques.op_b
+                    response.op_c = ques.op_c
+                    response.op_d = ques.op_d
+                if ques.ques_type == 'ManyCorrect':
+                    ans = request.POST.getlist('{}'.format(ques.ques))
+                    response.op_a = ques.op_a
+                    response.op_b = ques.op_b
+                    response.op_c = ques.op_c
+                    response.op_d = ques.op_d
+                if ques.ques_type == 'OpenAnswer':
+                    ans = request.POST.get('{}'.format(ques.ques))
+                print(ans)
+                response.submission_time = datetime.now().time()
+                response.answer = ques.answer
+                response.marks = ques.marks
+                response.negative_marks = ques.negative_marks
+                response.student_answer = ans
+                response.save()
+            return redirect('user_auth:home')
+    return redirect('user_auth:home')
+
+def view_all(request):
+    if request.session.has_key('username'):
+        logged_in = request.session['username']
+        u = get_user(request,logged_in)
+        all_test = Test.objects.all()
+        tests = []
+        for test in all_test:
+            if test.date == datetime.now().date() and (test.time <= datetime.now().time() <= (datetime.now()+timedelta(minutes=test.duration)).time()):
+                tests.append((test,True))
+            else:
+                tests.append((test,False))
+        return render(request, 'user_auth/view_all.html',{"all_test":tests[::-1]})
+    return redirect('user_auth:home')

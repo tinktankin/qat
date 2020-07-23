@@ -12,6 +12,7 @@
     <h1>Exam Name : {{obj.exam_name}}</h1>
     <h1>Exam Date : {{obj.exam_date}}</h1>
     <h1>Exam Time : {{obj.exam_time}}</h1>
+
     <form action="../ques/" method="POST">
         {% csrf_token %}
         <label class="required" for="id_ques_type">Question type:</label>

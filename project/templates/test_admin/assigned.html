@@ -106,13 +106,13 @@
                     </h3>
                     <h3>
                         <p style="color:#000000">
-                            EXAM TYPE : {{i.exam_type}}</p>
+                            Publisher : {{i.publisher}}</p>
                     </h3>
                     <h3>
                         <p style="color:#000000">
-                            Visibility : {{i.visibility}}</p>
+                            DURATION : {{i.duration}}</p>
                     </h3>
-                    <a href="{% url 'test_admin:ManageQBank' i.name %}"><button class="btn btn1"><i class=""></i> EDIT </button></a>
+                    <a href="{% url 'test_admin:manage_test' i.name %}"><button class="btn btn1"><i class=""></i> EDIT </button></a>
             </li>
             {% endfor %}
         </div>

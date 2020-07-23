@@ -249,9 +249,9 @@
                         </a>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:;">
+                        <a href="{% url 'user_auth:all_test'%}">
                             <i class="fa fa-desktop"></i>
-                            <span>Overall Access</span>
+                            <span>Take Tests</span>
                         </a>
                         <ul class="sub">
                             <li class="active"><a href="test.html">Test Admin</a></li>
@@ -963,9 +963,9 @@
                     <span>Manage Question Bank</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'test_admin:assigned_test' %}">
                     <i class="fa fa-calendar"></i>
-                    <span>Scoring Rubric</span></a>
+                    <span>Assigned Tests</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'test_admin:manage_qbank' %}">
